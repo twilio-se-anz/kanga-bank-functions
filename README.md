@@ -4,6 +4,14 @@ Kanga Bank is a fictitious bank for kangroos? yeah, sure ok.
 
 This is an example project showing how to use Twilio Serverless functions with Prisma with Supabase
 
+## Twilio Studio Flow
+
+Check out the `flow.json` file in the `assets` folder.
+
+Import it into Twilio Studio and modify the URL endpoint
+
+You will also require an airtable account and API key
+
 ### Configuration
 
 Check out the `example.env` file for configuration settings, make a copy and call it `.env`
