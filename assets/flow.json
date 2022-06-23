@@ -1,0 +1,228 @@
+{
+    "description": "Customer Support Menu",
+    "states": [
+      {
+        "name": "Trigger",
+        "type": "trigger",
+        "transitions": [
+          {
+            "event": "incomingMessage"
+          },
+          {
+            "next": "CheckSegment",
+            "event": "incomingCall"
+          },
+          {
+            "event": "incomingConversationMessage"
+          },
+          {
+            "event": "incomingRequest"
+          },
+          {
+            "event": "incomingParent"
+          }
+        ],
+        "properties": {
+          "offset": {
+            "x": 10,
+            "y": 30
+          }
+        }
+      },
+      {
+        "name": "WelcomeFast",
+        "type": "say-play",
+        "transitions": [
+          {
+            "next": "SendInvite",
+            "event": "audioComplete"
+          }
+        ],
+        "properties": {
+          "voice": "Polly.Joanna-Neural",
+          "offset": {
+            "x": -130,
+            "y": 610
+          },
+          "loop": 1,
+          "say": "Hi {{widgets.CheckSegment.parsed.Name}}. .. Welcome to Kanga Bank. Where digital experiences are only a hop, skip and a jump away.",
+          "language": "en-US"
+        }
+      },
+      {
+        "name": "CheckSegment",
+        "type": "run-function",
+        "transitions": [
+          {
+            "next": "WelcomeFast",
+            "event": "success"
+          },
+          {
+            "next": "WelcomeDefault",
+            "event": "fail"
+          }
+        ],
+        "properties": {
+          "service_sid": "ZS6d25eb58be054470ee6d62d83a1f4866",
+          "environment_sid": "ZE450672e71ac4d4f3e6a19d060bff9684",
+          "offset": {
+            "x": 90,
+            "y": 260
+          },
+          "function_sid": "ZH077bf88547dc16eff96f45ff57cc1460",
+          "parameters": [
+            {
+              "value": "{{trigger.call.From}}",
+              "key": "From"
+            }
+          ],
+          "url": "https://kanga-bank-functions-8050-dev.twil.io/my-activity"
+        }
+      },
+      {
+        "name": "antiquated_dtmf_experience",
+        "type": "say-play",
+        "transitions": [
+          {
+            "next": "gather_1",
+            "event": "audioComplete"
+          }
+        ],
+        "properties": {
+          "voice": "Polly.Joanna-Neural",
+          "offset": {
+            "x": 340,
+            "y": 870
+          },
+          "loop": 1,
+          "say": "Oh no, it looks like you have an old boring experience.",
+          "language": "en-US"
+        }
+      },
+      {
+        "name": "gather_1",
+        "type": "gather-input-on-call",
+        "transitions": [
+          {
+            "next": "say_play_2",
+            "event": "keypress"
+          },
+          {
+            "next": "say_play_2",
+            "event": "speech"
+          },
+          {
+            "next": "say_play_2",
+            "event": "timeout"
+          }
+        ],
+        "properties": {
+          "voice": "Polly.Joanna-Neural",
+          "speech_timeout": "auto",
+          "offset": {
+            "x": 510,
+            "y": 1280
+          },
+          "loop": 1,
+          "finish_on_key": "#",
+          "say": "Please go ahead an guess the right D T M F option. I'll wait.",
+          "language": "en-US",
+          "stop_gather": true,
+          "gather_language": "en",
+          "profanity_filter": "true",
+          "timeout": 5
+        }
+      },
+      {
+        "name": "fast_track",
+        "type": "say-play",
+        "transitions": [
+          {
+            "event": "audioComplete"
+          }
+        ],
+        "properties": {
+          "voice": "Polly.Joanna-Neural",
+          "offset": {
+            "x": -410,
+            "y": 1220
+          },
+          "loop": 1,
+          "say": "We know why your calling and now you're on the fast track. We're sending you a message from Kanga Bank with a link to an online experience for your claim dispute. Once you receive it, go ahead and follow the link. You can process the rest of your claim online immediatley..  \n\nI'm going to hang up now so you can continue your claim on your mobile device, but remember we're only a hop skip and a jump away. Thanks for calling. Buh Bye.",
+          "language": "en-US"
+        }
+      },
+      {
+        "name": "say_play_2",
+        "type": "say-play",
+        "transitions": [
+          {
+            "event": "audioComplete"
+          }
+        ],
+        "properties": {
+          "voice": "Polly.Joanna-Neural",
+          "offset": {
+            "x": 690,
+            "y": 1630
+          },
+          "loop": 1,
+          "say": "Nope, that wasn't it. And you only had one guess. Please try your call again",
+          "language": "en-US"
+        }
+      },
+      {
+        "name": "SendInvite",
+        "type": "run-function",
+        "transitions": [
+          {
+            "next": "fast_track",
+            "event": "success"
+          },
+          {
+            "event": "fail"
+          }
+        ],
+        "properties": {
+          "service_sid": "ZS6d25eb58be054470ee6d62d83a1f4866",
+          "environment_sid": "ZE450672e71ac4d4f3e6a19d060bff9684",
+          "offset": {
+            "x": -240,
+            "y": 870
+          },
+          "function_sid": "ZHe742469123699e0b3c832da401d5423b",
+          "parameters": [
+            {
+              "value": "{{trigger.call.From}}",
+              "key": "From"
+            }
+          ],
+          "url": "https://kanga-bank-functions-8050-dev.twil.io/send-invite"
+        }
+      },
+      {
+        "name": "WelcomeDefault",
+        "type": "say-play",
+        "transitions": [
+          {
+            "next": "antiquated_dtmf_experience",
+            "event": "audioComplete"
+          }
+        ],
+        "properties": {
+          "voice": "Polly.Joanna-Neural",
+          "offset": {
+            "x": 380,
+            "y": 600
+          },
+          "loop": 1,
+          "say": "Welcome to Kanga Bank. Where digital experiences are only a hop, skip and a jump away.",
+          "language": "en-US"
+        }
+      }
+    ],
+    "initial_state": "Trigger",
+    "flags": {
+      "allow_concurrent_calls": true
+    }
+  }
