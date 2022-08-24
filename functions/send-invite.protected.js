@@ -8,7 +8,7 @@ exports.handler = function (context, event, callback) {
     .messages.create({
       to: to,
       from: from,
-      body: "Fast track today’s experience, just follow the link below to try our fast help experience https://kanga.link?id=asf80jfe",
+      body: "Fast track today’s experience, just follow the link below to try our fast help experience https://kanga.link/AYd65",
     })
     .then((msg) => {
       callback(null, msg.sid);
